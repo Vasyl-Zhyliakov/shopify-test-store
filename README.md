@@ -1,4 +1,4 @@
-- [Demo] https://yuejargjquwncvum-95191367989.shopifypreview.com
+- [Demo](https://yuejargjquwncvum-95191367989.shopifypreview.com)
 - password - 12345
 
 # Follow these steps to run the project locally:
