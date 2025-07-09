@@ -1330,3 +1330,19 @@ class CartPerformance {
     );
   }
 }
+
+// Accordion by WebSensePro.com
+$(function() {
+	$(".accordion > .accordion-item.is-active").children(".accordion-panel").slideDown();
+	
+	$(".accordion > .accordion-item").click(function() {
+ const $accordion = $(this).closest(".accordion");
+    const allowMultiple = $accordion.hasClass("multiple");
+
+    if (!allowMultiple) {
+      $(this).siblings(".accordion-item").removeClass("is-active").children(".accordion-panel").slideUp();
+    }
+
+    $(this).toggleClass("is-active").children(".accordion-panel").slideToggle("ease-out");
+	});
+});

@@ -76,29 +76,14 @@
   <div class="page-width">
     <div class="product product--{{ section.settings.media_size }} product--{{ section.settings.media_position }} product--{{ section.settings.gallery_layout }} product--mobile-{{ section.settings.mobile_thumbnails }} grid grid--1-col {% if product.media.size > 0 %}grid--2-col-tablet{% else %}product--no-media{% endif %}">
       <div class="grid__item product__media-wrapper">
-  <!-- Swiper галерея продукту -->
-  <div class="swiper mySwiper"
-       data-slides-desktop="{{ section.settings.slides_per_view_desktop }}"
-       data-slides-tablet="{{ section.settings.slides_per_view_tablet }}"
-       data-slides-mobile="{{ section.settings.slides_per_view_mobile }}"
-       data-gap="{{ section.settings.gap }}"
-       data-pagination="{{ section.settings.show_pagination }}"
-       data-navigation="{{ section.settings.show_navigation }}">
-       
-    <div class="swiper-wrapper">
-      {% for media in product.media %}
-        <div class="swiper-slide" data-color="{{ media.alt | downcase }}">
-          {{ media | media_tag }}
-        </div>
-      {% endfor %}
-    </div>
-
-    <!-- Кнопки навігації та пагінація -->
-    <div class="swiper-button-prev"></div>
-    <div class="swiper-button-next"></div>
-    <div class="swiper-pagination"></div>
-  </div>
-</div>
+        <!-- {% render 'product-media-gallery', variant_images: variant_images %} -->
+        {% render 'featured-thumbnails',
+          show_arrows: section.settings.show_arrows,
+          show_pagination: section.settings.show_pagination,
+          slides_to_show: section.settings.slides_to_show,
+          slide_gap: section.settings.slide_gap
+        %}
+      </div>
       <div class="product__info-wrapper grid__item{% if settings.page_width > 1400 and section.settings.media_size == "small" %} product__info-wrapper--extra-padding{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
         <section
           id="ProductInfo-{{ section.id }}"
@@ -215,7 +200,27 @@
               {%- when 'description' -%}
                 {%- if product.description != blank -%}
                   <div class="product__description rte quick-add-hidden" {{ block.shopify_attributes }}>
-                    {{ product.description }}
+                    <!-- {{ product.description }} -->
+                    <ul class="accordion{% if section.settings.allow_multiple_open %} multiple{% endif %}">
+                      {% if product.metafields.custom.first_tab_description %}
+                        <li class="accordion-item">
+                          <h3 class="accordion-thumb">{{ product.metafields.custom.first_tab_title }}</h3>
+                          <p class="accordion-panel">{{ product.metafields.custom.first_tab_description }}</p>
+                        </li>
+                      {% endif %}
+                      {% if product.metafields.custom.second_tab_description %}
+                        <li class="accordion-item">
+                          <h3 class="accordion-thumb">{{ product.metafields.custom.second_tab_title }}</h3>
+                          <p class="accordion-panel">{{ product.metafields.custom.second_tab_description }}</p>
+                        </li>
+                      {% endif %}
+                      {% if product.metafields.custom.third_tab_description %}
+                        <li class="accordion-item">
+                          <h3 class="accordion-thumb">{{ product.metafields.custom.third_tab_title }}</h3>
+                          <p class="accordion-panel">{{ product.metafields.custom.third_tab_description }}</p>
+                        </li>
+                      {% endif %}
+                    </ul>
                   </div>
                 {%- endif -%}
               {%- when 'sku' -%}
@@ -377,7 +382,10 @@
                                 </dt>
                                 <dd>
                                   <span class="price-per-item--current">
-                                    {{- 'products.product.volume_pricing.price_at_each_html' | t: price: variant_price -}}
+                                    {{-
+                                      'products.product.volume_pricing.price_at_each_html'
+                                      | t: price: variant_price
+                                    -}}
                                   </span>
                                 </dd>
                               </dl>
@@ -1695,7 +1703,7 @@
         {
           "type": "header",
           "content": "t:sections.main-product.blocks.icon_with_text.settings.pairing_2.label"
-        },        
+        },
         {
           "type": "select",
           "id": "icon_2",
@@ -1895,7 +1903,7 @@
         {
           "type": "header",
           "content": "t:sections.main-product.blocks.icon_with_text.settings.pairing_3.label"
-        },        
+        },
         {
           "type": "select",
           "id": "icon_3",
@@ -2096,50 +2104,42 @@
     }
   ],
   "settings": [
+     {
+      "type": "range",
+      "id": "slides_to_show",
+      "label": "Кількість слайдів, що відображаються одночасно",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 4
+    },
     {
-    "type": "range",
-    "id": "slides_per_view_desktop",
-    "label": "Слайдів на десктопі",
-    "min": 1,
-    "max": 5,
-    "default": 3
-  },
-  {
-    "type": "range",
-    "id": "slides_per_view_tablet",
-    "label": "Слайдів на планшеті",
-    "min": 1,
-    "max": 4,
-    "default": 2
-  },
-  {
-    "type": "range",
-    "id": "slides_per_view_mobile",
-    "label": "Слайдів на мобільному",
-    "min": 1,
-    "max": 3,
-    "default": 1
-  },
-  {
-    "type": "range",
-    "id": "gap",
-    "label": "Відступ між слайдами (px)",
-    "min": 0,
-    "max": 50,
-    "default": 10
-  },
-  {
-    "type": "checkbox",
-    "id": "show_pagination",
-    "label": "Показати пагінацію",
-    "default": true
-  },
-  {
-    "type": "checkbox",
-    "id": "show_navigation",
-    "label": "Показати стрілки",
-    "default": true
-  },
+      "type": "checkbox",
+      "id": "show_pagination",
+      "label": "Увімкнути пагінацію",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrows",
+      "label": "Увімкнути стрілки навігації",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "slide_gap",
+      "label": "Відступ між слайдами (в px)",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "default": 10
+    },
+    {
+  "type": "checkbox",
+  "id": "allow_multiple_open",
+  "label": "Дозволити відкривати кілька табів одночасно",
+  "default": false
+},
     {
       "type": "checkbox",
       "id": "enable_sticky_info",
@@ -2241,7 +2241,7 @@
       ],
       "default": "hide",
       "label": "t:sections.main-product.settings.mobile_thumbnails.label"
-    },    
+    },
     {
       "type": "select",
       "id": "media_position",

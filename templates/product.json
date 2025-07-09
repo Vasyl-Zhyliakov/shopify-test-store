@@ -67,9 +67,13 @@
         "share"
       ],
       "settings": {
+        "slides_to_show": 4,
+        "show_pagination": false,
+        "show_arrows": true,
+        "slide_gap": 10,
         "enable_sticky_info": true,
         "color_scheme": "scheme-1",
-        "media_size": "large",
+        "media_size": "small",
         "constrain_to_viewport": true,
         "media_fit": "contain",
         "gallery_layout": "stacked",

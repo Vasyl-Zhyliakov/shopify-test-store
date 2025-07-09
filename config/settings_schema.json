@@ -1,11 +1,23 @@
 [
-  {
+    {
     "name": "theme_info",
     "theme_name": "Dawn",
     "theme_version": "15.3.0",
     "theme_author": "Shopify",
     "theme_documentation_url": "https://help.shopify.com/manual/online-store/themes",
     "theme_support_url": "https://support.shopify.com/"
+  },
+  {
+    "name": "Selected Variant Images",
+    "settings": [
+      {
+        "type": "text",
+        "id": "selected_option_name",
+        "label": "Variant option name",
+        "default": "Color",
+        "info": "Attach the first image of each group to a variant."
+      }
+    ]
   },
   {
     "name": "t:settings_schema.logo.name",
