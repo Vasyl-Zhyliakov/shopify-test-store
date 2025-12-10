@@ -1,4 +1,4 @@
-- [Demo](store-for-test-task-26-06-25.myshopify.com)
+- [Demo](https://store-for-test-task-26-06-25.myshopify.com/)
 - password - 12345
 
 # Follow these steps to run the project locally:
